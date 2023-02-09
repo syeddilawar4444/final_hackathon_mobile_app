@@ -25,8 +25,8 @@ function Signup(props) {
   }
   return (
     <>
-         <View style={{display: "flex", justifyContent:"space-between", flex: 1, backgroundColor: "red",}} >
-          <View style={{backgroundColor:"green",alignItems:"center",marginVertical:20}}>
+         <View style={{display: "flex", justifyContent:"space-between",backgroundColor:"#000C40" }} >
+          <View style={{alignItems:"center",marginVertical:20}}>
           <Text style={{ color: "white", fontSize: 50, fontWeight: "bold", marginVertical: 10 }}>Register</Text>
           <Text style={{ fontSize: 24, color: "white", marginBottom: 10 }}>
             Create New Account

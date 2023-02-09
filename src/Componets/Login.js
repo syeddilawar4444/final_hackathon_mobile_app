@@ -29,13 +29,13 @@ function Login(props) {
     return (
         <>
 
-                <View style={{ alignItems: 'center' , width:360,backgroundColor:"red"}} >
-                    <Text style={{ color:"white",fontSize:50,fontWeight:"bold",marginVertical:30 }}>Login</Text>
+                <View style={{backgroundColor:"#000C40"}} >
+                    <Text style={{ color:"white",alignSelf:"center",fontSize:50,fontWeight:"bold",marginVertical:30 }}>Login</Text>
                          {/* form container */}
-                    <View style={{height:700, width:360, backgroundColor:"white", borderTopLeftRadius:200,paddingTop:100,alignItems:"center"   }} >
+                    <View style={{height:700, backgroundColor:"white", borderTopLeftRadius:200,paddingTop:100,alignItems:"center", height:"100%" }} >
                         <Text style={{fontSize:40,color:"#054516"}}>Welcome Back</Text>
                         <Text>Login To Your Account</Text>
-                        <TextInput placeholder="Email..." onChangeText={(e)=>setEmail(e)} value={email} keyboardType={"email-address"} style={{backgroundColor:"#e0e0e0",borderRadius:100,color :"#054516",paddingHorizontal:10, width:"77%",paddingVertical:10,marginTop:14,fontSize:16 }}  />
+                        <TextInput placeholder="Email..." onChangeText={(e)=>setEmail(e)} value={email} keyboardType={"email-address"} style={{backgroundColor:"#e0e0e0",borderRadius:100,color :"#054516",paddingHorizontal:10, width:"77%",paddingVertical:10,marginTop:14,fontSize:16 }}/>
                         <TextInput placeholder="Password..." value={password} onChangeText={(e)=>setPassword(e)} secureTextEntry={true} style={{backgroundColor:"#e0e0e0",borderRadius:100,color :"#054516",paddingHorizontal:10, width:"77%",paddingVertical:10,marginTop:14,fontSize:16 }}  />
 
                         {/* <InputField vaue={username} placeholder="Email..." keyboardType={"email-address"}  />       
@@ -54,7 +54,6 @@ function Login(props) {
                                 <Text style={{color: "#054516",fontSize:16}}>
                                     Signup
                                 </Text>
-
                             </TouchableOpacity>
 
                         </View>
