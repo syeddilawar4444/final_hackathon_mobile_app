@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Text, TouchableOpacity, View,TextInput,StatusBar } from "react-native"
+import { Text, TouchableOpacity, View,TextInput,StatusBar, KeyboardAvoidingView,Platform } from "react-native"
+import { useNavigation } from '@react-navigation/native'
 // import CheckBox from '@react-native-community/checkbox';
 // import CheckBox from 'react-native-check-box'
 import Background from './Background'
@@ -7,8 +8,9 @@ import InputField from './InputField'
 import Btn from "./Btn"
 
 function Signup(props) {
+  const navigator = useNavigation()
 
-  const [username,setUsername] = useState("dilawar")
+  const [username,setUsername] = useState("")
   const [email,setEmail] = useState("")
   const [contact,setContact] = useState("")
   const [password,setPassword] = useState("")
@@ -16,15 +18,43 @@ function Signup(props) {
 
   const signUpUser = () => {
     if(!email || !username || !contact || !password || !cPassword){
-      alert("fill form ")
-
-    }else{
-
-
+      return alert("fill form ")
     }
-  }
+    debugger
+     try{
+      fetch("http://pc IP:4000/user/register",{
+        method:"POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(
+                {
+                fullName:username,
+                phoneNumber:contact,
+                email:email,
+                password:password,
+                }
+        )
+    })
+    .then(res => res.json())
+    .then(res => console.log(res))
+
+
+
+     }
+     catch(error){
+      alert(error)
+     }
+   
+
+
+
+alert("success full registerd")
+
+}
   return (
     <>
+    <KeyboardAvoidingView>
          <View style={{display: "flex", justifyContent:"space-between",backgroundColor:"#000C40" }} >
           <View style={{alignItems:"center",marginVertical:20}}>
           <Text style={{ color: "white", fontSize: 50, fontWeight: "bold", marginVertical: 10 }}>Register</Text>
@@ -40,10 +70,10 @@ function Signup(props) {
         }} >
 
             <Text>Signup To Your Account</Text>
-            <TextInput value={username} onChangeText={(e)=>setUsername(e)} placeholder="UserName..."   style={{ backgroundColor: "#e0e0e0", borderRadius: 100, color: "#054516", paddingHorizontal: 10, width: "77%", paddingVertical: 10, marginTop: 14, fontSize: 16 }} />
-            <TextInput value={email} onChangeText={(e)=>setEmail(e)} placeholder="Email..."  keyboardType={"email-address"} style={{ backgroundColor: "#e0e0e0", borderRadius: 100, color: "#054516", paddingHorizontal: 10, width: "77%", paddingVertical: 10, marginTop: 14, fontSize: 16 }} />
-            <TextInput value={contact} onChangeText={(e)=>setContact(e)}  placeholder="Contact No..." keyboardType={"numeric"} style={{ backgroundColor: "#e0e0e0", borderRadius: 100, color: "#054516", paddingHorizontal: 10, width: "77%", paddingVertical: 10, marginTop: 14, fontSize: 16 }} />
-            <TextInput value={password} onChangeText={(e)=>setPassword(e)} placeholder="Password..." secureTextEntry={true}  style={{ backgroundColor: "#e0e0e0", borderRadius: 100, color: "#054516", paddingHorizontal: 10, width: "77%", paddingVertical: 10, marginTop: 14, fontSize: 16 }} />
+            <TextInput value={username} enterKeyHint={"next"} onChangeText={(e)=>setUsername(e)} placeholder="UserName..."   style={{ backgroundColor: "#e0e0e0", borderRadius: 100, color: "#054516", paddingHorizontal: 10, width: "77%", paddingVertical: 10, marginTop: 14, fontSize: 16 }} />
+            <TextInput value={email} onChangeText={(e)=>setEmail(e)} placeholder="enteremail@gmail.com"  keyboardType={"email-address"} style={{ backgroundColor: "#e0e0e0", borderRadius: 100, color: "#054516", paddingHorizontal: 10, width: "77%", paddingVertical: 10, marginTop: 14, fontSize: 16 }} />
+            <TextInput value={contact} maxLength={11} onChangeText={(e)=>setContact(e)}  placeholder="03xxxxxxxx" keyboardType={"numeric"} style={{ backgroundColor: "#e0e0e0", borderRadius: 100, color: "#054516", paddingHorizontal: 10, width: "77%", paddingVertical: 10, marginTop: 14, fontSize: 16 }} />
+            <TextInput value={password}  onChangeText={(e)=>setPassword(e)} placeholder="Password..." secureTextEntry={true}  style={{ backgroundColor: "#e0e0e0", borderRadius: 100, color: "#054516", paddingHorizontal: 10, width: "77%", paddingVertical: 10, marginTop: 14, fontSize: 16 }} />
             <TextInput value={cPassword} onChangeText={(e)=>setConPassword(e)} placeholder="Confirm Password..." secureTextEntry={true}  style={{ backgroundColor: "#e0e0e0", borderRadius: 100, color: "#054516", paddingHorizontal: 10, width: "77%", paddingVertical: 10, marginTop: 14, fontSize: 16 }} />
 
           
@@ -68,6 +98,8 @@ function Signup(props) {
           </View>
 
         </View>
+    </KeyboardAvoidingView>
+
     </>
   )
 }

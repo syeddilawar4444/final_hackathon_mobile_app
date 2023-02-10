@@ -57,16 +57,8 @@ function Login(props) {
                             </TouchableOpacity>
 
                         </View>
-                
-                
-                
                     </View>
-
-                
-
-                    
-
-            </View>
+                </View>
        
         </>
         )
