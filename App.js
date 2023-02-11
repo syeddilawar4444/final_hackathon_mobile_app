@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View,StatusBar,useColorScheme } from 'react-native';
 // import { SafeAreaView } from 'react-native-safe-area-context'
-import Background from './src/Componets/Background';
+// import Background from './src/Componets/Background';
 import Navigation from './src/Config/Navigation';
 import {Colors} from "react-native/Libraries/NewAppScreen"
 

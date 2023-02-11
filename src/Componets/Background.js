@@ -3,11 +3,11 @@ import {ImageBackground ,View,SafeAreaView,Platform,StatusBar,StyleSheet}  from 
 import BackImg from "../assets/Background.jpg"
 function Background({children}) {
   return (
-    <ImageBackground source={BackImg} style={styles.container}>
-<View style={{alignContent:"center"}}>
-{children}
-</View>
-    </ImageBackground>
+    // <ImageBackground source={BackImg} style={styles.container}>
+    <View style={{backgroundColor:"red",display:"flex",alignItems:"stretch",}}>
+    {children}
+    </View>
+    // </ImageBackground>
   )
 }
 const styles = StyleSheet.create({

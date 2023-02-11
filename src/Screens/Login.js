@@ -1,26 +1,73 @@
 import React, { useRef, useState } from "react";
-import { Text, TouchableOpacity, View, TextInput } from "react-native";
+import { Text, TouchableOpacity, View, TextInput,ActivityIndicator,Alert } from "react-native";
 // import CheckBox from '@react-native-community/checkbox';
 // import CheckBox from 'react-native-check-box'
-import Background from "./Background";
-import InputField from "./InputField";
-import Btn from "./Btn";
+// import Background from "./Background";
+import InputField from "../Componets/InputField";
+import Btn from "../Componets/Btn";
+import BaseUrl from "../constant/BaseUrl";
+import axios from "axios";
+
 
 function Login(props) {
-  const [username, setUsername] = useState("dilawar");
   const [email, setEmail] = useState("");
-  const [contact, setContact] = useState("");
   const [password, setPassword] = useState("");
-  const [cPassword, setConPassword] = useState("");
+  const [loading,setLoading] = useState(false)
+  const [respon ,setRespon] = useState("")
 
   const passwordInputRef = useRef();
 
-  const loginUser = () => {
+  const loginUser = async() => {
     if (!email || !password) {
-      return alert("fill the Form");
+      return alert("Please fill the Form");
     }
-    console.log("email", email);
-    console.log("password", password);
+    try {
+      const resp = await axios.post(`${BaseUrl}/user/login`, {
+            email: email,
+            password: password,
+      });
+      console.log("res==>",resp.data.message);
+      setRespon(resp.data.message)
+
+      setLoading(false)
+      Alert.alert(
+        "Login",
+        "Successfully Login",
+        [{
+          text:"OK",
+          onPress:()=>{props.navigation.navigate("Home")}
+        }]
+      )
+      setPassword("")
+      setEmail("")
+      
+    //  const msg =   alert("registered")
+    //  await msg
+      // props.navigation.navigate("Login")
+      // fetch(`${baseUrl}/user/register`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     fullName: username,
+    //     phoneNumber: contact,
+    //     email: email,
+    //     password: password,
+    //   }),
+    // })
+    //   .then((res) => res.json())
+    //   .then((res) => console.log(res));
+  } catch (error) {
+    // alert('error',error);
+    console.log("error1",error)
+    setLoading(false)
+    alert('faild')
+  }
+
+
+
+
   };
 
   //    const change = (e)=>{
@@ -55,6 +102,7 @@ function Login(props) {
           <Text>Login To Your Account</Text>
           <TextInput
             placeholder="Email..."
+            autoFocus
             returnKeyType="next"
             onChangeText={(e) => setEmail(e)}
             onSubmitEditing={()=>{
@@ -106,12 +154,14 @@ function Login(props) {
             </Text>
           </View>
           {/* loginButton */}
+
+          {loading ?  <ActivityIndicator style={{alignSelf:"center",marginTop:7}} size={"large"}  color="#0000ff"/> :
           <Btn
             bgColor="green"
             textColor="white"
             btnLable="Login"
             press={loginUser}
-          />
+          />}
           {/* Don't have an account */}
           <View
             style={{

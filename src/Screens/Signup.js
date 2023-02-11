@@ -6,21 +6,17 @@ import {
   TextInput,
   StatusBar,
   KeyboardAvoidingView,
-  Platform,
+  Platform,Alert,
+  ActivityIndicator
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
-
-// import CheckBox from '@react-native-community/checkbox';
-// import CheckBox from 'react-native-check-box'
-
 //import components
-import Background from "./Background";
-import InputField from "./InputField";
-import Btn from "./Btn";
+// import Background from "../Componets/Background";
+import InputField from "../Componets/InputField";
+import Btn from "../Componets/Btn";
+import BaseUrl from "../constant/BaseUrl"
 
 function Signup(props) {
-  const navigator = useNavigation();
 
   const emailInputRef = useRef("");
   const contactInputRef = useRef("");
@@ -33,24 +29,60 @@ function Signup(props) {
   const [password, setPassword] = useState("");
   const [cPassword, setConPassword] = useState("");
 
-  const baseUrl = "http://192.168.4.100:4000";
+  const [loading,setLoading] = useState(false)
 
-  const signUpUser = async ({navigation}) => {
+  const signUpUser = async () => {
+    setLoading(true)
     if (!email || !username || !contact || !password || !cPassword) {
-      return alert("fill form ");
+      setLoading(false)
+      return alert("Please Fill The Form");
     }
+    // debugger
+    if (isNaN(contact)) {
+      setLoading(false)
+      return alert("Correct Number");
+    }
+
+    if (!(password === cPassword)) {
+      setLoading(false)
+      return alert("Password Not Match");
+    }
+
+    if (contact.length < 11) {
+      setLoading(false)
+      return alert("Mobile Number invalid");
+    }
+    if (email.length < 12) {
+      setLoading(false)
+      return alert("Email Short");
+    }
+   
+
     try {
-        const resp = await axios.post(`${baseUrl}/user/register`, {
+        const resp = await axios.post(`${BaseUrl}/user/register`, {
               fullName: username,
               phoneNumber: contact,
               email: email,
               password: password,
         });
         console.log("res==>",resp.data);
-        alert("registered")
-        // navigation.navigate("Login")
-        navigation.navigate('Login')
-    
+        setLoading(false)
+        Alert.alert(
+          "SignUp",
+          "Successfully Registered",
+          [{
+            text:"OK",
+            onPress:()=>{props.navigation.navigate("Login")}
+          }]
+        )
+        setUsername("")
+        setPassword("")
+        setEmail("")
+        setContact("")
+        setConPassword("")
+      //  const msg =   alert("registered")
+      //  await msg
+        // props.navigation.navigate("Login")
         // fetch(`${baseUrl}/user/register`, {
       //   method: "POST",
       //   headers: {
@@ -68,6 +100,7 @@ function Signup(props) {
     } catch (error) {
       // alert('error',error);
       console.log("error1",error)
+      setLoading(false)
       alert('faild')
     }
   };
@@ -113,6 +146,7 @@ function Signup(props) {
               onSubmitEditing={() => {
                 emailInputRef.current.focus();
               }}
+              maxLength={24}
               blurOnSubmit={false}
               returnKeyType="next"
               value={username}
@@ -138,7 +172,7 @@ function Signup(props) {
               }}
               returnKeyType="next"
               onChangeText={(e) => setEmail(e)}
-              placeholder="enteremail@gmail.com"
+              placeholder="email@gmail..."
               keyboardType={"email-address"}
               style={{
                 backgroundColor: "#e0e0e0",
@@ -218,12 +252,17 @@ function Signup(props) {
                                 <Text style={{color:"#054516", fontSize:16,marginTop:13}} >Forgot Password ?</Text>
                               </View> */}
             {/* loginButton */}
-            <Btn
+
+            { loading ? <ActivityIndicator style={{alignSelf:"center",marginTop:10}} size={"large"}  color="#0000ff"/>
+            :<Btn
               bgColor="green"
               textColor="white"
               btnLable="SignUp"
               press={signUpUser}
             />
+}
+
+
             {/* Don't have an account */}
             <View
               style={{
