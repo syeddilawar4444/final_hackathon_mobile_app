@@ -17,6 +17,19 @@ function Login(props) {
 
   const passwordInputRef = useRef();
 
+  const parseJwt = (token) => {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
+
+
+
+
   const loginUser = async() => {
     if (!email || !password) {
       return alert("Please fill the Form");
@@ -26,9 +39,10 @@ function Login(props) {
             email: email,
             password: password,
       });
-      console.log("res==>",resp.data.message);
+      console.log("res==>",resp.data.token);
+      localStorage.setItem("token",resp.data.token)
+      
       setRespon(resp.data.message)
-
       setLoading(false)
       Alert.alert(
         "Login",

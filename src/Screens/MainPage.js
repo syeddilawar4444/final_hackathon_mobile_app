@@ -12,9 +12,7 @@ const login = ()=>{
 }
 
   return (
-  //  <Text> dilawar</Text>
 
-    // <Background>
     <>
       <View style={{marginHorizontal:30,width:"100%" } } >
 
@@ -28,7 +26,7 @@ const login = ()=>{
       </View>
 
     </>
-    // </Background>
+
   )
 }
 // const styles = StyleSheet.create({

@@ -12,13 +12,8 @@ function Background({children}) {
 }
 const styles = StyleSheet.create({
   container:{
-
     height:"100%" , width:"100%",display:"flex",flexDirection:"row",alignItems:"stretch",
-  
-  
-  
   }
   }
 )
-
 export default Background
